@@ -1,5 +1,6 @@
 package com.example.kgadde.buttonlayoutsave;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,46 +21,74 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button button1 = (Button) findViewById(R.id.button1);
-        button1.setOnClickListener(new View.OnClickListener() {
+        final SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+        findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
+            int t1Press = sharedPreferences.getInt("t1", 0);
             @Override
             public void onClick(View v) {
-                b1press++;
-                Toast.makeText(MainActivity.this, " B1 Pressed " + b1press + " times", Toast.LENGTH_SHORT).show();
-                Log.i("onCreate","ButtonPressed");
+                t1Press = sharedPreferences.getInt("t1", 0);
+                t1Press ++;
+                Toast.makeText(MainActivity.this, "T1 has been pressed "+t1Press + " times.", Toast.LENGTH_SHORT).show();
+                Log.i("T1", t1Press + "");
+                editor.putInt("t1", t1Press);
+                editor.apply();
+            }
+        });
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            int t2Press = sharedPreferences.getInt("t2", 0);
+
+            @Override
+            public void onClick(View v) {
+                t2Press = sharedPreferences.getInt("t2", 0);
+                t2Press++;
+                Toast.makeText(MainActivity.this, "T2 has been pressed " + t2Press + " times.", Toast.LENGTH_SHORT).show();
+                Log.i("T2", t2Press + "");
+                editor.putInt("t2", t2Press);
+                editor.apply();
             }
         });
 
-        Button button2 = (Button) findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            int t3Press = sharedPreferences.getInt("t3", 0);
+
             @Override
             public void onClick(View v) {
-                b2press++;
-                Toast.makeText(MainActivity.this, "B2 Pressed " + b2press + " times", Toast.LENGTH_SHORT).show();
-                Log.i("onCreate", "ButtonPressed");
+                t3Press = sharedPreferences.getInt("t3", 0);
+                t3Press++;
+                Toast.makeText(MainActivity.this, "T3 has been pressed " + t3Press + " times.", Toast.LENGTH_SHORT).show();
+                Log.i("T3", t3Press + "");
+                editor.putInt("t3", t3Press);
+                editor.apply();
             }
         });
 
-        Button button3 = (Button) findViewById(R.id.button3);
-        button3.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
+            int t4Press = sharedPreferences.getInt("t4", 0);
+
             @Override
             public void onClick(View v) {
-                b3press++;
-                Toast.makeText(MainActivity.this, "B3 Pressed " + b3press + " times", Toast.LENGTH_SHORT).show();
-                Log.i("onCreate", "ButtonPressed");
+                t4Press = sharedPreferences.getInt("t4", 0);
+                t4Press++;
+                Toast.makeText(MainActivity.this, "T4 has been pressed " + t4Press + " times.", Toast.LENGTH_SHORT).show();
+                Log.i("T4", t4Press + "");
+                editor.putInt("t4", t4Press);
+                editor.apply();
             }
         });
-
-        Button button4 = (Button) findViewById(R.id.button4);
-        button4.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                b4press++;
-                Toast.makeText(MainActivity.this, "B4 Pressed " + b4press + " times", Toast.LENGTH_SHORT).show();
-                Log.i("onCreate", "ButtonPressed");
+                editor.putInt("t1", 0);
+                editor.putInt("t2", 0);
+                editor.putInt("t3", 0);
+                editor.putInt("t4", 0);
+                editor.commit();
+                Toast.makeText(MainActivity.this, "Values Reset", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override
@@ -68,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
